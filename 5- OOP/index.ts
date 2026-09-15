@@ -141,3 +141,18 @@ student.fullName; // output: 'Juan Sosa'
 console.log(student);
 console.log(student.fullName);
 console.log(student.takeTest());
+
+/**
+ * Method Overriding
+ * Method overriding allows a subclass to provide a specific implementation of a method that is already defined in its superclass.
+ * The overridden method in the subclass should have the same name, return type, and parameters as the method in the superclass.
+ */
+
+class Teacher extends Person {
+  override get fullName() {
+    return `Professor ${super.fullName}`;
+  }
+}
+
+const teacher = new Teacher('Pablo', 'Sosa');
+console.log(teacher.fullName);
