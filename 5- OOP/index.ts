@@ -5,16 +5,13 @@
 // Classes are blueprints for creating objects. They encapsulate data and behavior related to that data.
 
 class Account {
-  readonly id: number; // readonly property cannot be modified after initialization
-  name: string;
-  private _balance: number;
   nickname?: string;
 
-  constructor(id: number, name: string, _balance: number) {
-    this.id = id;
-    this.name = name;
-    this._balance = _balance;
-  }
+  constructor(
+    public readonly id: number, // readonly property cannot be modified after initialization
+    public owner: string,
+    private _balance: number,
+  ) {}
 
   // function is a method inside the class
   deposit(amount: number) {
@@ -22,9 +19,9 @@ class Account {
     this._balance += amount;
   }
 
-  private calculateTax = () => { // private method can only be accessed within the class
-
-  }
+  private calculateTax = () => {
+    // private method can only be accessed within the class
+  };
 
   getBalance = (): number => {
     return this._balance;
