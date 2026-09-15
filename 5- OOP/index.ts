@@ -156,3 +156,34 @@ class Teacher extends Person {
 
 const teacher = new Teacher('Pablo', 'Sosa');
 console.log(teacher.fullName);
+
+/**
+ * Polymorphism
+ * Polymorphism means that different classes can be treated as the same parent type while providing different implementations of the same method or property.
+ * The function does not need to know whether the object is a Student, Teacher, or Principal. 
+ * TypeScript automatically uses the correct implementation.
+ * 
+ * Use polymorphism when:
+ * Several classes share a common parent or interface.
+ * They need the same method or property with different behavior.
+ * We want to process different object types using one function.
+ * We want to avoid repeated if or switch checks based on object type.
+ */
+
+class Principal extends Person {
+  override get fullName() {
+    return `Principal ${super.fullName}`;
+  }
+}
+
+printNames([
+  new Student(1, 'Elias', 'Solis'),
+  new Teacher('Pablo', 'Alvarez'),
+  new Principal('Maria', 'Gomez'),
+]);
+
+function printNames(people: Person[]) {
+  for (let person of people) {
+    console.log(person.fullName);
+  }
+}
