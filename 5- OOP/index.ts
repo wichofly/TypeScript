@@ -139,3 +139,5 @@ class Student extends Person {
 const student = new Student(1, 'Juan', 'Sosa');
 student.fullName; // output: 'Juan Sosa'
 console.log(student);
+console.log(student.fullName);
+console.log(student.takeTest());
