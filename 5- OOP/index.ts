@@ -23,9 +23,15 @@ class Account {
     // private method can only be accessed within the class
   };
 
-  getBalance = (): number => {
+  get balance(): number {
     return this._balance;
-  };
+  }
+
+  set balance(value: number) {
+    if (value < 0) throw new Error('Balance cannot be negative');
+
+    this._balance = value;
+  }
 }
 
 // Creating an Object
@@ -37,4 +43,11 @@ console.log(account instanceof Account); // output: true
 
 // account.id = 0; Error: Cannot assign to 'id' because it is a read-only property
 
-console.log(account.getBalance()); // output: 100
+console.log(account.balance); // output: 100
+account.balance = 150;
+console.log(account.balance); // output: 150
+
+/**
+ * Getters and Setters
+ * In short, get reads a property and set changes it safely. They help protect data and maintain encapsulation.
+ */
