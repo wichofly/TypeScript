@@ -160,9 +160,9 @@ console.log(teacher.fullName);
 /**
  * Polymorphism
  * Polymorphism means that different classes can be treated as the same parent type while providing different implementations of the same method or property.
- * The function does not need to know whether the object is a Student, Teacher, or Principal. 
+ * The function does not need to know whether the object is a Student, Teacher, or Principal.
  * TypeScript automatically uses the correct implementation.
- * 
+ *
  * Use polymorphism when:
  * Several classes share a common parent or interface.
  * They need the same method or property with different behavior.
@@ -185,5 +185,51 @@ printNames([
 function printNames(people: Person[]) {
   for (let person of people) {
     console.log(person.fullName);
+  }
+}
+
+// Abstract Classes are not recommended for use in TypeScript.
+// They are a way to define a class that cannot be instantiated directly, but can be extended by other classes.
+// Abstract classes can contain abstract methods, which must be implemented by subclasses.
+
+/**
+ * Interfaces
+ * Interfaces define the structure of an object, specifying the properties and methods that an object must have. Not implementation is provided in the interfaces.
+ *
+ * Use an interface when you only need to define a common structure or contract.
+ * Use an abstract class when related classes should share properties, a constructor, or implemented methods.
+ *
+ * Main difference:
+ * A class can implement multiple interfaces.
+ * A class can extend only one abstract class.
+ * Interfaces have no implementation.
+ * Abstract classes can contain shared implementation and state.
+ */
+
+// abstract class Calender {
+//   constructor(public name: string) {}
+
+//   abstract addEvent(): void;
+//   abstract removeEvent(): void;
+// }
+
+interface Calender {
+  name: string;
+  addEvent(): void;
+  removeEvent(): void;
+}
+
+interface CloudCalender extends Calender {
+  sync(): void;
+}
+
+class GoogleCalender implements Calender {
+  constructor(public name: string) {}
+
+  addEvent(): void {
+    throw new Error('Method not implemented.');
+  }
+  removeEvent(): void {
+    throw new Error('Method not implemented.');
   }
 }
