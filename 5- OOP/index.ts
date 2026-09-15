@@ -64,3 +64,37 @@ console.log(account.balance); // output: 150
   seats.A1 = 'Santiago';
   seats.A2 = 'Juan';
  */
+
+/**
+ * Static Properties and Methods
+ * The static keyword makes a property or method belong to the class itself, not to individual objects.
+ * 
+ * _activeRides is shared by all Ride objects. Every time a ride starts, the shared counter increases:
+ * 
+ * In short, use static when a value or method should be shared by the entire class rather than stored separately in each object.
+ */
+
+class Ride {
+  private static _activeRides: number = 0;
+
+  start() {
+    Ride._activeRides++;
+  }
+  stop() {
+    Ride._activeRides--;
+  }
+
+  static get activeRides() {
+    return Ride._activeRides;
+  }
+}
+
+// Ride.activeRides = 10; // Error: Cannot assign to 'activeRides' because it is a read-only property.
+
+const ride1 = new Ride();
+ride1.start();
+
+const ride2 = new Ride();
+ride2.start();
+
+console.log(Ride.activeRides);
