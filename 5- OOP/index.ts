@@ -51,3 +51,16 @@ console.log(account.balance); // output: 150
  * Getters and Setters
  * In short, get reads a property and set changes it safely. They help protect data and maintain encapsulation.
  */
+
+/**
+ * Index signatures
+ * Index signatures allow us to define properties with dynamic keys. They are useful when we want to create objects with properties that are not known at compile time.
+
+  class SeatAssignment {
+    [seatNumber: string]: string; 
+  }
+
+  const seats = new SeatAssignment();
+  seats.A1 = 'Santiago';
+  seats.A2 = 'Juan';
+ */
