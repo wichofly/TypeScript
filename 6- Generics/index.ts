@@ -27,7 +27,7 @@ console.log(pair.key);
 /**
  * Generic function
  * A generic function works with different data types while keeping type safety.
- * 
+ *
  * Because the method is static, you call it using the class name.
  */
 
@@ -39,3 +39,37 @@ class ArrayUtils {
 
 const utils = ArrayUtils.wrapInArray('22');
 console.log(utils);
+
+/**
+ * Generic interfaces
+ * This provides reusable code and type safety without duplicating interfaces for every endpoint.
+ *
+ * Lets imagine we have a website that has different endpoints.
+ * - http//:website.com/users
+ * - http//:website.com/products
+ */
+
+// Not reusable
+// interface Result {
+//   data: User | Product
+// }
+
+interface Result<T> {
+  data: T | null;
+  error: string | null;
+}
+
+function fetch<T>(url: string): Result<T> {
+  return { data: null, error: 'Not found' };
+}
+
+interface User {
+  username: string;
+}
+
+interface Product {
+  title: string;
+}
+
+const result = fetch<User>('url');
+result.data?.username;
