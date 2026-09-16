@@ -215,7 +215,7 @@ store2.find('Hello', false); // Argument of type '"Hello"' is not assignable to 
  * Type Mapping
  * Type mapping, or mapped types, creates a new type by transforming the properties of an existing type.
  * Instead of rewriting every property manually, TypeScript loops through the keys of a type and applies a change.
- * 
+ *
  * Use mapped types when we need a modified version of an existing type, such as:
  * - Making all properties readonly.
  * - Making all properties optional.
@@ -247,3 +247,52 @@ const example2: ReadOnly<Product> = {
   title: 'Playing Generic',
 };
 console.log(example2);
+
+// https://www.typescriptlang.org/docs/handbook/2/generics.html 'Generic'
+// https://www.typescriptlang.org/docs/handbook/utility-types.html 'Utility Types'
+
+//------------------------------------ EXERCISES -----------------------------------
+
+// 1- Convert the function below to a generic function:
+
+// function exercise(arg) {
+//   return arg;
+// }
+
+function exercise<T>(arg: T) {
+  return arg;
+}
+
+// 2-  When compiling the following piece of code, we get an error saying ‘Property name does not exist on type T’.
+//     How can we solve this problem?
+
+// function printName<T>(obj: T) {
+//   console.log(obj.name);
+// }
+
+// Answer:
+// We need to apply a constraint on the generic Type parameter so the TypeScript compiler knows that objects of type 'T' have a name property.
+function printName<T extends { name: string }>(obj: T) {
+  console.log(obj.name);
+}
+
+// 3- An Entity should have a unique identifier. The type of identifier, however, is dependent on the use case.
+// In some cases, the ID might be a number, in other cases, it might be a string, GUID, etc. Represent the entity using a generic class.
+
+class Entity<T> {
+  constructor(public id: T) {}
+}
+
+const entitySting = new Entity('1');
+const entityNumber = new Entity(2);
+console.log(entitySting);
+console.log(entityNumber);
+
+// 4- Given the following interface what does Keyof User return?
+// Answer:
+// It returns a union of properties of User: `userId` | `username`
+
+interface User {
+  userId: number;
+  userName: string;
+}
