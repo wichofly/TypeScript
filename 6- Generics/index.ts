@@ -73,3 +73,53 @@ interface Product {
 
 const result = fetch<User>('url');
 result.data?.username;
+
+/**
+ * Generic Constraints
+ * A generic constraint limits the types that can be used with a generic.
+ * It uses extends to say: “T must have this type or structure.
+ *
+ * Use generic constraints when:
+ * - You need to restrict the accepted types.
+ * - Your function needs to access specific properties or methods.
+ * - You want flexibility while maintaining type safety.
+ * - You want to prevent invalid values from being passed.
+ *
+ * Without a constraint, TypeScript does not know what properties T has. 
+ * With a constraint, you can safely use those properties.
+ */
+
+// This function accepts only numbers or strings:
+function echo<T extends number | string>(value: T): T {
+  return value;
+}
+
+interface IPlayer {
+  name: string;
+}
+
+class Player {
+  constructor(public name: string) {}
+}
+
+class Customer extends Player {}
+
+// Constraint by object
+function echo2<T extends { name: string }>(value: T): T {
+  return value;
+}
+
+// Constraint by Interface
+function echo3<T extends IPlayer>(value: T): T {
+  return value;
+}
+
+function echo4<T extends Customer>(value: T): T {
+  return value;
+}
+
+console.log(echo(22));
+echo2({ name: 'Messi' });
+echo3({ name: 'Cristiano' });
+echo4(new Player('Ronaldo'));
+echo4(new Customer('Wicho'));
