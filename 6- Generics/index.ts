@@ -85,7 +85,7 @@ result.data?.username;
  * - You want flexibility while maintaining type safety.
  * - You want to prevent invalid values from being passed.
  *
- * Without a constraint, TypeScript does not know what properties T has. 
+ * Without a constraint, TypeScript does not know what properties T has.
  * With a constraint, you can safely use those properties.
  */
 
@@ -120,6 +120,62 @@ function echo4<T extends Customer>(value: T): T {
 
 console.log(echo(22));
 echo2({ name: 'Messi' });
-echo3({ name: 'Cristiano' });
+console.log(echo3({ name: 'Cristiano' }));
 echo4(new Player('Ronaldo'));
 echo4(new Customer('Wicho'));
+
+/**
+ * Extending Generic Classes
+ * “Extending generic classes” means creating a child class from a generic parent class while keeping, restricting, or fixing its type parameter.
+ *
+ * CompressibleStore<T> passes its type to Store<T>.
+ * The child class remains flexible and can work with different types.
+ *
+ * SearchableStore<T extends { name: string }>
+ * The constraint guarantees that every T has a name property. This allows the class to safely use:
+ * "obj.name"
+ *
+ * ProductStore can only store Product1 objects. 
+ * It is no longer generic because its type is fixed.
+ * 
+ * Use this pattern when a parent class contains reusable logic, but child classes need additional features while keeping strong type safety.
+ */
+
+interface Product1 {
+  name: string;
+  price: number;
+}
+
+class Store<T> {
+  protected _objects: T[] = [];
+
+  add(obj: T): void {
+    this._objects.push(obj);
+  }
+}
+
+// const store = new Store<Product1>()
+// store.objects = []
+
+// Pass on the generic type parameter
+class CompressibleStore<T> extends Store<T> {
+  compress() {}
+}
+
+const store = new CompressibleStore<Product1>();
+store.add({ name: 'Laptop', price: 499 });
+store.compress();
+
+// Restrict the generic type parameter
+class SearchableStore<T extends { name: string }> extends Store<T> {
+  find(name: string): T | undefined {
+    return this._objects.find((obj) => obj.name === name);
+  }
+}
+
+// Fix the generic type parameter
+class ProductStore extends Store<Product1> {
+  filterByCategory(category: string): Product1[] {
+    return [];
+  }
+}
