@@ -183,11 +183,11 @@ class ProductStore extends Store<Product1> {
 /**
  * The Keyof operator
  * keyof creates a union of all property names of a type.
- * 
+ *
  * T becomes Product1, so property can only be:
  * 'name' or 'price'
- * 
- * Use keyof when a function should accept only valid property names of an object. 
+ *
+ * Use keyof when a function should accept only valid property names of an object.
  * It is useful for searching, sorting, filtering, or reading object properties while avoiding spelling mistakes and invalid keys.
  */
 
@@ -210,3 +210,40 @@ store2.add({ name: 'Figo', price: 25000 });
 store2.find('name', 'James');
 store2.find('price', 2);
 store2.find('Hello', false); // Argument of type '"Hello"' is not assignable to parameter of type 'keyof Product1'.
+
+/**
+ * Type Mapping
+ * Type mapping, or mapped types, creates a new type by transforming the properties of an existing type.
+ * Instead of rewriting every property manually, TypeScript loops through the keys of a type and applies a change.
+ * 
+ * Use mapped types when we need a modified version of an existing type, such as:
+ * - Making all properties readonly.
+ * - Making all properties optional.
+ * - Changing property types.
+ * - Creating reusable utility types.
+ */
+
+type ReadOnlyProduct = {
+  readonly [Property in keyof Product1]: Product1[Property];
+};
+
+const example: ReadOnlyProduct = {
+  name: 'Freddy',
+  price: 31,
+};
+console.log(example);
+
+// Much better to use the generic 'T'. This version works with any type: class or interface created we want
+type ReadOnly<T> = {
+  readonly [K in keyof T]: T[K];
+};
+
+const product: ReadOnly<Customer> = {
+  name: 'Ozil',
+};
+console.log(product);
+
+const example2: ReadOnly<Product> = {
+  title: 'Playing Generic',
+};
+console.log(example2);
