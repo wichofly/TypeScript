@@ -135,9 +135,9 @@ echo4(new Customer('Wicho'));
  * The constraint guarantees that every T has a name property. This allows the class to safely use:
  * "obj.name"
  *
- * ProductStore can only store Product1 objects. 
+ * ProductStore can only store Product1 objects.
  * It is no longer generic because its type is fixed.
- * 
+ *
  * Use this pattern when a parent class contains reusable logic, but child classes need additional features while keeping strong type safety.
  */
 
@@ -179,3 +179,34 @@ class ProductStore extends Store<Product1> {
     return [];
   }
 }
+
+/**
+ * The Keyof operator
+ * keyof creates a union of all property names of a type.
+ * 
+ * T becomes Product1, so property can only be:
+ * 'name' or 'price'
+ * 
+ * Use keyof when a function should accept only valid property names of an object. 
+ * It is useful for searching, sorting, filtering, or reading object properties while avoiding spelling mistakes and invalid keys.
+ */
+
+class Store2<T> {
+  protected _objects: T[] = [];
+
+  add(obj: T): void {
+    this._objects.push(obj);
+  }
+
+  // T is Product1
+  // Keyof T = 'name' | 'price'
+  find(property: keyof T, value: unknown): T | undefined {
+    return this._objects.find((obj) => obj[property] === value);
+  }
+}
+
+const store2 = new Store2<Product1>();
+store2.add({ name: 'Figo', price: 25000 });
+store2.find('name', 'James');
+store2.find('price', 2);
+store2.find('Hello', false); // Argument of type '"Hello"' is not assignable to parameter of type 'keyof Product1'.
