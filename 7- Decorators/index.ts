@@ -42,8 +42,8 @@ person.say('Hello');
 
 /**
  * Accessor Decorators
- * An Accessor Decorator is declared just before an accessor declaration. 
- * The accessor decorator is applied to the Property Descriptor for the accessor and can be used to observe, modify, or replace an accessor’s definitions. 
+ * An Accessor Decorator is declared just before an accessor declaration.
+ * The accessor decorator is applied to the Property Descriptor for the accessor and can be used to observe, modify, or replace an accessor’s definitions.
  * An accessor decorator cannot be used in a declaration file, or in any other ambient context (such as in a declare class).
  */
 
@@ -72,3 +72,47 @@ class Person2 {
 const person2 = new Person2('juan', 'pablo');
 console.log(person2.fullName);
 
+/**
+ * Property / auto-accessor decorator
+ * A property decorator adds behavior to a class property.
+ * It is useful for repeated concerns such as validation, logging, serialization, or metadata.
+ *
+ * A standard field decorator cannot replace a property's getter and setter.
+ * An auto-accessor lets the decorator intercept both reading and assignment.
+ */
+
+function MinLength(length: number) {
+  return function <This>(
+    target: ClassAccessorDecoratorTarget<This, string>,
+    context: ClassAccessorDecoratorContext<This, string>,
+  ) {
+    const propertyName = String(context.name);
+
+    return {
+      get(this: This) {
+        return target.get.call(this);
+      },
+      set(this: This, newValue: string) {
+        if (newValue.length < length) {
+          throw new Error(
+            `${propertyName} should be at least ${length} characters long.`,
+          );
+        }
+
+        target.set.call(this, newValue);
+      },
+    };
+  };
+}
+
+class User {
+  @MinLength(4)
+  accessor password = '';
+
+  constructor(password: string) {
+    this.password = password;
+  }
+}
+
+const user = new User('1234');
+console.log(user.password);
