@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import NewReminder from './components/NewReminder';
 import ReminderList from './components/ReminderList';
 import reminderService from './services/axios';
 import type { Reminder } from './types';
-import NewReminder from './components/NewReminder';
 
 function App() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
@@ -22,11 +22,18 @@ function App() {
 
   const addReminder = async (title: string) => {
     const newReminder = await reminderService.addReminder(title);
-    setReminders([newReminder, ...reminders]);
+    setReminders((currentReminders) => [newReminder, ...currentReminders]);
   };
 
-  const removeReminder = (id: number) => {
-    setReminders(reminders.filter((reminder) => reminder.id !== id));
+  const removeReminder = async (id: number) => {
+    try {
+      await reminderService.removeReminder(id);
+      setReminders((currentReminders) =>
+        currentReminders.filter((reminder) => reminder.id !== id),
+      );
+    } catch (error) {
+      console.error('Unable to remove reminder:', error);
+    }
   };
 
   return (

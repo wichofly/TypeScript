@@ -6,17 +6,17 @@ class ReminderService {
     baseURL: import.meta.env.VITE_API_URL,
   });
 
-  async getReminders() {
+  async getReminders(): Promise<Reminder[]> {
     const response = await this.http.get<Reminder[]>('/todos');
     return response.data;
   }
 
-  async addReminder(title: string) {
+  async addReminder(title: string): Promise<Reminder> {
     const response = await this.http.post<Reminder>('/todos', { title });
     return response.data;
   }
 
-  async removeReminder(id: number) {
+  async removeReminder(id: number): Promise<void> {
     await this.http.delete(`/todos/${id}`);
   }
 }
