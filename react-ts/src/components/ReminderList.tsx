@@ -2,9 +2,10 @@ import type { Reminder } from '../types';
 
 interface ReminderListProps {
   items: Reminder[];
+  onRemoveReminder: (id: number) => void;
 }
 
-const ReminderList = ({ items }: ReminderListProps) => {
+const ReminderList = ({ items, onRemoveReminder }: ReminderListProps) => {
   if (items.length === 0) {
     return (
       <p className="mt-8 rounded-lg border border-slate-200 bg-white p-6 text-center text-slate-500 shadow-sm">
@@ -24,6 +25,12 @@ const ReminderList = ({ items }: ReminderListProps) => {
             {item.id}
           </span>
           <span className="text-slate-700">{item.title}</span>
+          <button
+            onClick={() => onRemoveReminder(item.id)}
+            className="rounded-lg bg-red-400 hover:bg-red-500 text-white px-3 py-1 cursor-pointer"
+          >
+            Delete
+          </button>
         </li>
       ))}
     </ul>
