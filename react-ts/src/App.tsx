@@ -1,40 +1,9 @@
-import { useEffect, useState } from 'react';
 import NewReminder from './components/NewReminder';
 import ReminderList from './components/ReminderList';
-import reminderService from './services/axios';
-import type { Reminder } from './types';
+import useReminders from './hooks/useReminders';
 
 function App() {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
-
-  useEffect(() => {
-    const loadReminders = async () => {
-      try {
-        const loadedReminders = await reminderService.getReminders();
-        setReminders(loadedReminders);
-      } catch (error) {
-        console.error('Unable to load reminders:', error);
-      }
-    };
-
-    void loadReminders(); // indicates that we intentionally do not await the promise returned inside the effect.
-  }, []);
-
-  const addReminder = async (title: string) => {
-    const newReminder = await reminderService.addReminder(title);
-    setReminders((currentReminders) => [newReminder, ...currentReminders]);
-  };
-
-  const removeReminder = async (id: number) => {
-    try {
-      await reminderService.removeReminder(id);
-      setReminders((currentReminders) =>
-        currentReminders.filter((reminder) => reminder.id !== id),
-      );
-    } catch (error) {
-      console.error('Unable to remove reminder:', error);
-    }
-  };
+  const { reminders, addReminder, removeReminder } = useReminders();
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 sm:p-8">
